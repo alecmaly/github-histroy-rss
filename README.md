@@ -6,7 +6,11 @@ The purpose of this repo is to stand up a server that can generate a valid .rss 
 
 **Start**:
 ```bash
+# local testing
 npm run start
+
+# run on server
+nohup npm run start &
 ```
 
 **Test using url**:
