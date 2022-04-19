@@ -6,16 +6,17 @@ const app = express()
 const port = 80
 
 
-async function generate_github_rss(res, url) {
+async function generateGithubHistoryRSS(res, url) {
     let html = await fetch(url).then(resp => { return resp.text() })
-    let github_username = url.split('/')[1]
+    let github_username = url.split('/')[3]
+    let github_repo = url.split('/')[4]
     let root = parse(html)
     // console.log(html)
 
     let rss = `<?xml version="1.0" encoding="utf-8"?>
     <rss version="2.0">
         <channel>
-            <title>${github_username} github updates</title>
+            <title>${github_username} - ${github_repo}: github updates</title>
             <link>${url}</link>
             <description>Github history updates</description>
     `
@@ -32,7 +33,7 @@ async function generate_github_rss(res, url) {
                     <title>${title}</title>
                     <pubDate>${date}</pubDate>
                     <link>${item_url}</link>
-                    <description>${github_username}: Github update</description>
+                    <description>${github_username} - ${github_repo}: Github update</description>
                 </item>
         `
         // console.log(url)
@@ -52,7 +53,7 @@ app.get('/generate_github_history_rss', (req, res) => {
     console.log(req.url)
     console.log(req.query.url)
     if (req.query.url && req.query.url.startsWith('https://github.com/')) {
-        let feed_xml = generate_github_rss(res, req.query.url)
+        generateGithubHistoryRSS(res, req.query.url)
         return
     }
     res.send('Please enter a valid url.')
