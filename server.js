@@ -28,12 +28,12 @@ async function generateGithubHistoryRSS(res, url) {
             date = (new Date(date.trim()).toUTCString())
             let title  = timeline.querySelector('a').text
             title = encode(title, {mode: 'nonAsciiPrintable', level: 'xml'})
-            let item_url = 'https://github.com' +  timeline.querySelector('a').getAttribute('href')
+            // let item_url = 'https://github.com' +  timeline.querySelector('a').getAttribute('href')
             rss += `
                     <item>
                         <title>${title}</title>
                         <pubDate>${date}</pubDate>
-                        <link>${item_url}</link>
+                        <link>${url}</link>
                         <description>${github_username} - ${github_repo}: Github update</description>
                     </item>
             `
